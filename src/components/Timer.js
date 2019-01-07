@@ -13,6 +13,7 @@ class Timer extends React.Component {
   }
 
   bloomTime() {
+    //---These both will be actual timers ---// 
     this.setState({
       bloomTimer: this.state.bloomTimer - 1
     });
@@ -22,11 +23,12 @@ class Timer extends React.Component {
       finishTimer: this.state.finishTimer - 1
     });
   }
-
+  
   render () {
     const phase = this.props.phase;
     return (
       <div>
+        <h1>Brew Timer</h1>
         <PhaseInfo phase={phase} timeHandler={phase === "Bloom" ? this.bloomTime : this.mainTime} time={phase === "Bloom" ? this.state.bloomTimer : this.state.finishTimer} />
       </div>
     );
