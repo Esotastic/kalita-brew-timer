@@ -6,20 +6,32 @@ class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bloomTimer: 30,
-      finishTimer: 180
+      bloomTimer: 0,
+      bloomStart: 0,
+      finishTimer: 180,
+      finishState: 0
     }
     this.bloomTime = this.bloomTime.bind(this);
     this.mainTime = this.mainTime.bind(this);
+    this.pauseBloom = this.pauseBloom.bind(this);
+    this.pauseMain = this.pauseMain.bind(this);
+    this.resetBloom = this.resetBloom.bind(this);
+    this.resetMain = this.resetMain.bind(this);
   }
 
   bloomTime() {
-    let second = this.state.bloomTimer; 
-    //---These both will be actual timers ---// 
-    this.timer = setInterval(() => 
-      this.setState({
-        bloomTimer: second--
-      }), 1000);
+    this.setState({
+      bloomTimer: this.state.bloomTimer,
+      bloomStart: Date.now() - this.state.bloomTimer
+    })
+    this.timer = setInterval(() => this.setState({
+      bloomTimer: Date.now() - this.state.bloomStart
+    }), 1)
+    // let second = this.state.bloomTimer; 
+    // this.timer = setInterval(() => 
+    //   this.setState({
+    //     bloomTimer: second--
+    //   }), 1000);
   }
   mainTime() {
     let secondMain = this.state.finishTimer;
@@ -30,16 +42,29 @@ class Timer extends React.Component {
   }
 
   pauseBloom() {
-    let currentBloom = this.state.bloomTimer;
-    if (currentBloom< 30) {
-      alert("Timer would totally be paused right now");
-    } else {
-      alert("Timer isn't running, so....");
-    };
+      clearInterval(this.timer);
   }
 
   pauseMain() {
-    alert("Main phase paused testeroonie");
+    let currentMain = this.state.finishTimer;
+    if(currentMain < 180) {
+      clearInterval(this.timer);
+    } else {
+      alert("Main phase timer isn't running!");
+    };
+  }
+
+  resetBloom() {
+    if (this.state.bloomTimer < 30) {
+      this.setState({
+        bloomTimer: 30
+      });
+    }
+  }
+  resetMain() {
+    if (this.state.finishTimer < 180) {
+      alert("resetting main timer");
+    }
   }
   
   render () {
@@ -52,6 +77,7 @@ class Timer extends React.Component {
           timeHandler={phase === "Bloom" ? this.bloomTime : this.mainTime} 
           time={phase === "Bloom" ? this.state.bloomTimer : this.state.finishTimer}
           pause={phase === "Bloom" ? this.pauseBloom : this.pauseMain} 
+          reset={phase === "Bloom" ? this.resetBloom : this.resetMain}
         />
       </div>
     );
