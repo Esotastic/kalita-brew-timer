@@ -6,7 +6,7 @@ class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bloomTimer: 0,
+      bloomTimer: 30,
       bloomStart: 0,
       finishTimer: 180,
       finishState: 0
@@ -20,18 +20,18 @@ class Timer extends React.Component {
   }
 
   bloomTime() {
-    this.setState({
-      bloomTimer: this.state.bloomTimer,
-      bloomStart: Date.now() - this.state.bloomTimer
-    })
-    this.timer = setInterval(() => this.setState({
-      bloomTimer: Date.now() - this.state.bloomStart
-    }), 1)
-    // let second = this.state.bloomTimer; 
-    // this.timer = setInterval(() => 
-    //   this.setState({
-    //     bloomTimer: second--
-    //   }), 1000);
+    // this.setState({
+    //   bloomTimer: this.state.bloomTimer,
+    //   bloomStart: Date.now() - this.state.bloomTimer
+    // })
+    // this.timer = setInterval(() => this.setState({
+    //   bloomTimer: Date.now() - this.state.bloomStart
+    // }), 10)
+    let second = this.state.bloomTimer; 
+    this.timer = setInterval(() => 
+      this.setState({
+        bloomTimer: second--
+      }), 1000);
   }
   mainTime() {
     let secondMain = this.state.finishTimer;
